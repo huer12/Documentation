@@ -292,6 +292,14 @@ After successful authentication, you should now see the role claims in the user'
 
 ![role claims](https://cloud.githubusercontent.com/assets/1454075/4605904/0397adc2-5203-11e4-9e20-32b1b53c7570.png)
 
+Please note, that with these settings the function IPrincipal.IsInRole() does not work anymore as this function relies on the ClaimTypes.Role which is the namespace. Also the [Authorize("RoleName)"] does not work. If your application depends on these, then use following code:
+```csharp
+    JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>
+    {
+        { "role", System.Security.Claims.ClaimTypes.Role }
+    };
+```
+
 ## Claims transformation
 When you inspect the claims on the about page, you will notice two things: some claims have odd long type names and there are more claims than you probably need in your application.
 
